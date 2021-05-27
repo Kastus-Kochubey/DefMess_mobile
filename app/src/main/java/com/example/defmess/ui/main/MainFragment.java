@@ -2,6 +2,7 @@ package com.example.defmess.ui.main;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.JsonReader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.defmess.R;
 import com.example.defmess.RequestToServer;
 import com.example.defmess.databinding.FragmentMainBinding;
 
@@ -55,12 +57,12 @@ public class MainFragment extends Fragment {
                 jsonObject.put("email", "russian_post");
                 jsonObject.put("password", "1234");
 //                String text = request.post("/user/login", "{'email': 'russian_post','password': '1234'}");
-                String text = request.post("/user/login", jsonObject.toString());
-                if (text != null) {
+                JSONObject jsonResponse = request.post("/user/login", jsonObject.toString());
+                if (jsonResponse != null) {
                     for (int i = 0; i < 20; i++) {
                         TextView textView = new TextView(root.getContext());
                         textView.setTextColor(Color.rgb(255, 3 * i % 200, 7 * i % 256));
-                        textView.setText(text);
+                        textView.setText(jsonResponse.toString());
                         linearLayout.addView(textView);
                     }
                 }

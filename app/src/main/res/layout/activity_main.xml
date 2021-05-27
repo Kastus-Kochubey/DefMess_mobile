@@ -6,9 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:openDrawer="start"
-    android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
-    tools:context=".MainActivity">
+    android:theme="@style/Theme.DefMess"
+    tools:openDrawer="start">
+    <!--    tools:context=".MainActivity"-->
+
 
 
     <include
@@ -22,7 +23,10 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:fitsSystemWindows="true"
         app:menu="@menu/activity_main_drawer"
         app:headerLayout="@layout/nav_menu_header"/>
+
+
 
 </androidx.drawerlayout.widget.DrawerLayout>

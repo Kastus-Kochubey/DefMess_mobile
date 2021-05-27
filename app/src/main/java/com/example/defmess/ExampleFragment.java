@@ -36,26 +36,26 @@ public class ExampleFragment extends Fragment {
 //        ImageButton imageButton = view.findViewById(R.id.imageButton);
 
 
-        button.setOnClickListener((v) -> {
-//            RequestToServer request = new RequestToServer("https://82.148.29.139");
-            RequestToServer request = new RequestToServer("http://127.0.0.1:5000");
-            try {
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("email", "russian_post");
-                jsonObject.put("password", "1234");
-//                String text = request.post("/user/login", "{'email': 'russian_post','password': '1234'}");
-                String text = request.post("/user/login", jsonObject.toString());
-                for (int i = 0; i < 20; i++) {
-                    TextView textView = new TextView(view.getContext());
-                    textView.setTextColor(Color.rgb(255, 13 * i % 256, 150));
-                    textView.setText(text);
-                    linearLayout.addView(textView);
-                }
-            } catch (IOException | ExecutionException | InterruptedException | JSONException e) {
-                e.printStackTrace();
-            }
-
-        });
+//        button.setOnClickListener((v) -> {
+////            RequestToServer request = new RequestToServer("https://82.148.29.139");
+//            RequestToServer request = new RequestToServer("http://127.0.0.1:5000");
+//            try {
+//                JSONObject jsonObject = new JSONObject();
+//                jsonObject.put("email", "russian_post");
+//                jsonObject.put("password", "1234");
+////                String text = request.post("/user/login", "{'email': 'russian_post','password': '1234'}");
+//                String text = request.post("/user/login", jsonObject.toString());
+//                for (int i = 0; i < 20; i++) {
+//                    TextView textView = new TextView(view.getContext());
+//                    textView.setTextColor(Color.rgb(255, 13 * i % 256, 150));
+//                    textView.setText(text);
+//                    linearLayout.addView(textView);
+//                }
+//            } catch (IOException | ExecutionException | InterruptedException | JSONException e) {
+//                e.printStackTrace();
+//            }
+//
+//        });
 //        imageButton.setOnClickListener((v) -> {
 //
 //        });

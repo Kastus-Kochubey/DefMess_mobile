@@ -13,14 +13,15 @@ import androidx.navigation.Navigation;
 
 import com.example.defmess.R;
 import com.example.defmess.databinding.FragmentMainBinding;
+import com.example.defmess.databinding.FragmentProfileBinding;
 
 import org.jetbrains.annotations.NotNull;
 
 public class ProfileFragment extends Fragment {
-    private FragmentMainBinding binding;
-    public ProfileFragment() {
-        super(R.layout.fragment_profile);
-    }
+    private FragmentProfileBinding binding;
+//    public ProfileFragment() {
+//        super(R.layout.fragment_profile);
+//    }
 
     @Nullable
     @org.jetbrains.annotations.Nullable
@@ -29,12 +30,13 @@ public class ProfileFragment extends Fragment {
 //        Button button = container.findViewById(R.id.button_back);
 
 
-        binding = FragmentMainBinding.inflate(inflater, container, false);
-        Button button = binding.button;
+        binding = FragmentProfileBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
+//        Button button = binding.button;
 
-        button.setOnClickListener((v) -> {
-            Navigation.findNavController(container).navigate(R.id.action_nav_profile_to_nav_main);
-        });
-        return super.onCreateView(inflater, container, savedInstanceState);
+//        button.setOnClickListener((v) -> {
+//            Navigation.findNavController(container).navigate(R.id.action_nav_profile_to_nav_main);
+//        });
+        return root;
     }
 }
