@@ -44,8 +44,7 @@ public class RequestToServer {
 
     }
 
-    public JSONObject get(String path, String json) throws ExecutionException, InterruptedException, JSONException {
-        RequestBody body = RequestBody.create(json, JSON);
+    public JSONObject get(String path) throws ExecutionException, InterruptedException, JSONException {
         Request request = new Request.Builder()
                 .url(address + path)
                 .get()

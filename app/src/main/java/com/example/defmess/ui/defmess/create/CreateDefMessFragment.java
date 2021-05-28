@@ -1,4 +1,4 @@
-package com.example.defmess.ui.create_defmess;
+package com.example.defmess.ui.defmess.create;
 
 import androidx.fragment.app.Fragment;
 

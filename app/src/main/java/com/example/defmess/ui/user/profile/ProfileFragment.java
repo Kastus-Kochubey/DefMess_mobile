@@ -1,4 +1,4 @@
-package com.example.defmess.ui.profile;
+package com.example.defmess.ui.user.profile;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.example.defmess.R;
-import com.example.defmess.databinding.FragmentMainBinding;
 import com.example.defmess.databinding.FragmentProfileBinding;
 
 import org.jetbrains.annotations.NotNull;
@@ -32,11 +31,11 @@ public class ProfileFragment extends Fragment {
 
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-//        Button button = binding.button;
+        Button button = binding.buttonBack;
 
-//        button.setOnClickListener((v) -> {
-//            Navigation.findNavController(container).navigate(R.id.action_nav_profile_to_nav_main);
-//        });
+        button.setOnClickListener((v) -> {
+            Navigation.findNavController(container).navigate(R.id.nav_main);
+        });
         return root;
     }
 }

@@ -27,12 +27,12 @@ public class ExampleFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Button button = view.findViewById(R.id.button);
-//        Button button = view.
+//        Button button = view.findViewById(R.id.button);
+////        Button button = view.
+////        ScrollView scrollView = view.findViewById(R.id.ScrollView);
 //        ScrollView scrollView = view.findViewById(R.id.ScrollView);
-        ScrollView scrollView = view.findViewById(R.id.ScrollView);
-
-        LinearLayout linearLayout = view.findViewById(R.id.LinearLayout);
+//
+//        LinearLayout linearLayout = view.findViewById(R.id.LinearLayout);
 //        ImageButton imageButton = view.findViewById(R.id.imageButton);
 
 

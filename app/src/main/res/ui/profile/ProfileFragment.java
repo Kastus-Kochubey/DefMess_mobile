@@ -1,4 +1,4 @@
-package com.example.defmess.ui.profile;
+package com.example.defmess.ui.user.profile;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

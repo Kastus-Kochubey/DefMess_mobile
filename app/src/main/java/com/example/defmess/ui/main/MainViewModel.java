@@ -4,16 +4,27 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class MainViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
+    private MutableLiveData<JSONArray> pubDefMessages = null;
 
-    public MainViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is gallery fragment");
+//    public MainViewModel() {
+//        pubDefMessages = new MutableLiveData<>();
+////        pubDefMessages.setValue();
+//    }
+    public void savePubDefMessages(JSONArray jsonArray){
+        pubDefMessages = new MutableLiveData<JSONArray>(jsonArray);
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<JSONArray> getPubDefMessages() {
+        return pubDefMessages;
+    }
+
+    public Boolean isSaved() {
+        return pubDefMessages != null;
     }
 }
+
