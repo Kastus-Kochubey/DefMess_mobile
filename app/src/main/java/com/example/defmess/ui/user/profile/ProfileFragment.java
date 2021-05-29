@@ -31,11 +31,7 @@ public class ProfileFragment extends Fragment {
 
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        Button button = binding.buttonBack;
 
-        button.setOnClickListener((v) -> {
-            Navigation.findNavController(container).navigate(R.id.nav_main);
-        });
         return root;
     }
 }

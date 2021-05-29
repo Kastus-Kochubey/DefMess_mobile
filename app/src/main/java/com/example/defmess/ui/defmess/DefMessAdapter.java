@@ -1,16 +1,26 @@
 package com.example.defmess.ui.defmess;
 
+import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.Drawable;
+import android.text.style.BackgroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.defmess.JsonFilesManager;
 import com.example.defmess.R;
+import com.example.defmess.RequestToServer;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -19,6 +29,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class DefMessAdapter extends RecyclerView.Adapter<DefMessAdapter.DefMessHolder> {
 
@@ -29,9 +40,9 @@ public class DefMessAdapter extends RecyclerView.Adapter<DefMessAdapter.DefMessH
     }
     public DefMessAdapter(JSONArray jsonArray) throws JSONException {
         for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jsonObject = jsonArray.getJSONObject(i);
-            Log.e("JSArrToDMAdapter", jsonObject.toString());
-            DefMess defMess = new DefMess(jsonObject);
+            JSONObject jsonDefMess = jsonArray.getJSONObject(i).getJSONObject("defmess");
+            Log.e("JsonDefMess", jsonDefMess.toString());
+            DefMess defMess = new DefMess(jsonDefMess);
             list.add(defMess);
         }
     }
@@ -44,10 +55,36 @@ public class DefMessAdapter extends RecyclerView.Adapter<DefMessAdapter.DefMessH
         return new DefMessHolder(view);
     }
 
+//    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull @NotNull DefMessHolder holder, int position) {
         DefMess defMess = list.get(position);
-        holder.name.setText(defMess.end_date);
+        holder.userName.setText(defMess.user.name);
+        holder.userSurname.setText(defMess.user.surname);
+        holder.userEmail.setText(defMess.user.email);
+
+        holder.defmessLocation.setText(defMess.location);
+
+
+        if (defMess.is_published) {
+            holder.itemView.setBackgroundColor(Color.rgb(255, 116, 116));
+        }else if (defMess.is_published == null) {
+            holder.itemView.setBackgroundColor(Color.rgb(125, 255, 69));
+        } else if (!(defMess.is_published)) {
+            holder.itemView.setBackgroundColor(Color.rgb(93, 139, 255));
+        }
+
+        RequestToServer request = new RequestToServer("http://127.0.0.1:5000");
+        try {
+
+            Bitmap bitmapResponce = request.getImage(defMess.user.link_to_photo);
+            if (bitmapResponce != null) {
+                holder.userAvatar.setImageBitmap(bitmapResponce);
+            }
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -56,10 +93,20 @@ public class DefMessAdapter extends RecyclerView.Adapter<DefMessAdapter.DefMessH
     }
 
     static class DefMessHolder extends RecyclerView.ViewHolder {
-        TextView name;
+        TextView userName;
+        TextView userSurname;
+        TextView userEmail;
+        ImageView userAvatar;
+
+        TextView defmessLocation;
+
         public DefMessHolder(@NonNull @NotNull View view) {
             super(view);
-            name = view.findViewById(R.id.textView3);
+            userName = view.findViewById(R.id.userName);
+            userSurname = view.findViewById(R.id.userSurname);
+            userEmail = view.findViewById(R.id.userEmail);
+            userAvatar = view.findViewById(R.id.userAvatar);
+            defmessLocation = view.findViewById(R.id.defmessLocation);
         }
     }
 }

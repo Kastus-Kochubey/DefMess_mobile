@@ -1,14 +1,16 @@
 package com.example.defmess;
 
+import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.concurrent.ExecutionException;
 
 import okhttp3.MediaType;
@@ -36,7 +38,7 @@ public class RequestToServer {
                 .url(address + path)
                 .post(body)
                 .build();
-        MakeReq req = new MakeReq();
+        MakeReqString req = new MakeReqString();
 //        String json_response = ;
         JSONObject jsonResp = new JSONObject(req.execute(request).get());
         Log.e("post", "response: " + jsonResp);
@@ -47,21 +49,47 @@ public class RequestToServer {
     public JSONObject get(String path) throws ExecutionException, InterruptedException, JSONException {
         Request request = new Request.Builder()
                 .url(address + path)
-                .get()
-                .build();
-        MakeReq req = new MakeReq();
+                .get().build();
+
+
+        MakeReqString req = new MakeReqString();
         JSONObject jsonResp = new JSONObject(req.execute(request).get());
         Log.e("get", "response: " + jsonResp);
         return jsonResp;
     }
 
+    public Bitmap getImage(String path) throws ExecutionException, InterruptedException {
+        Request request = new Request.Builder()
+                .url(address + path)
+                .get()
+                .build();
+        MakeReqBitmap req = new MakeReqBitmap();
+        return req.execute(request).get();
 
-    protected class MakeReq extends AsyncTask<Request, Void, String> {
+    }
+
+
+    @SuppressLint("StaticFieldLeak")
+    protected class MakeReqString extends AsyncTask<Request, Void, String> {
         @Override
         protected String doInBackground(Request... requests) {
             try (Response response = client.newCall(requests[0]).execute()) {
 //                String json_res = response.body().string();
                 return response.body().string();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+    @SuppressLint("StaticFieldLeak")
+    protected class MakeReqBitmap extends AsyncTask<Request, Void, Bitmap> {
+        @Override
+        protected Bitmap doInBackground(Request... requests) {
+            try (Response response = client.newCall(requests[0]).execute()) {
+//                String json_res = response.body().string();
+                InputStream inputStream = response.body().byteStream();
+                return BitmapFactory.decodeStream(inputStream);
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -1,6 +1,8 @@
 package com.example.defmess.ui.user.login;
 
 import android.os.Bundle;
+import android.provider.CalendarContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +26,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.concurrent.ExecutionException;
 
 public class LoginFragment extends Fragment {
@@ -56,8 +63,10 @@ public class LoginFragment extends Fragment {
                     jsonFilesManager.save();
 
 //                    Toast.makeText(getContext(), "qqqqqqqqq" + jsonFilesManager.getJson().toString(), Toast.LENGTH_SHORT).show();
-                    Snackbar.make(binding.getRoot(), "qqqqqqqqq" + jsonFilesManager.getJson().toString(), Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+//                    Snackbar.make(binding.getRoot(), Calendar.getInstance().toString(), Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+
+
 
 
                 }
@@ -65,7 +74,7 @@ public class LoginFragment extends Fragment {
                 e.printStackTrace();
             }
             // TODO: check server response / check user's data unique on server
-//            Navigation.findNavController(root).navigate(R.id.nav_main);
+            Navigation.findNavController(root).navigate(R.id.nav_profile);
         });
 
         return root;

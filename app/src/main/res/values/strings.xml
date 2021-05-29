@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">DefMess</string>
+
+    <string name="nav_main_title">DefMess</string>
+    <string name="nav_profile_title">Profile</string>
+    <string name="nav_login_title">Login</string>
+    <string name="nav_register_title">RegisterFragment</string>
 </resources>
