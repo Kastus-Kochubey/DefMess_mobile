@@ -18,9 +18,14 @@ public class JsonFilesManager {
     private final Context context;
     private JSONObject jsonFile;
 
-    public JsonFilesManager(Context context) {
-        this.context = context.getApplicationContext();
-        jsonFile = new JSONObject();
+    public JsonFilesManager(Context appContext) throws IOException, JSONException {
+        this.context = appContext;
+        jsonFile = getJson();
+    }
+
+    public JsonFilesManager(Context appContext, Boolean load) throws IOException, JSONException {
+        this.context = appContext;
+        if (load) jsonFile = getJson();
     }
 
 
@@ -32,7 +37,7 @@ public class JsonFilesManager {
     }
 
 
-    public JSONObject getJson() throws IOException, JSONException {
+    private JSONObject getJson() throws IOException, JSONException {
         FileInputStream inputStream = context.openFileInput(FILENAME);
         BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
         StringBuilder str = new StringBuilder();
@@ -44,8 +49,23 @@ public class JsonFilesManager {
 
     }
 
-    public void add(String name, Object value) throws IOException, JSONException {
+    public JsonFilesManager add(String name, Object value) throws IOException, JSONException {
         jsonFile.put(name, value);
+        return this;
+    }
+
+    public Object get(String name) throws JSONException {
+        if (jsonFile != null){
+            return jsonFile.get(name);
+        }
+        return null;
+    }
+
+    public JSONObject getJSONObject(String name) throws JSONException {
+        if (jsonFile != null){
+            return jsonFile.getJSONObject(name);
+        }
+        return null;
     }
 
 //    public void add(String name, JSONObject jsonObject) throws IOException, JSONException {

@@ -58,16 +58,13 @@ public class LoginFragment extends Fragment {
                 JSONObject jsonResponse = request.post("/user/login", jsonObject.toString());
                 if (jsonResponse != null) {
                     Toast.makeText(getContext(), jsonResponse.toString(), Toast.LENGTH_SHORT).show();
-                    JsonFilesManager jsonFilesManager = new JsonFilesManager(getContext());
+                    JsonFilesManager jsonFilesManager = new JsonFilesManager(getContext().getApplicationContext());
                     jsonFilesManager.add("jwt_code", jsonResponse.getString("jwt_code"));
                     jsonFilesManager.save();
 
 //                    Toast.makeText(getContext(), "qqqqqqqqq" + jsonFilesManager.getJson().toString(), Toast.LENGTH_SHORT).show();
 //                    Snackbar.make(binding.getRoot(), Calendar.getInstance().toString(), Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
-
-
-
 
                 }
             } catch (IOException | ExecutionException | InterruptedException | JSONException e) {
@@ -78,5 +75,10 @@ public class LoginFragment extends Fragment {
         });
 
         return root;
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

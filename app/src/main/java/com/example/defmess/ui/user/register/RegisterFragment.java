@@ -41,7 +41,7 @@ public class RegisterFragment extends Fragment {
         Button register_butt = binding.registerButt;
 
         register_butt.setOnClickListener((v) -> {
-            if (!password.getText().toString().equals(passwordAgain.getText().toString())){
+            if (!password.getText().toString().equals(passwordAgain.getText().toString())) {
                 Toast.makeText(getContext(), "Пароли не совпадают", Toast.LENGTH_SHORT).show();
                 password.setText("");
                 passwordAgain.setText("");
@@ -67,5 +67,11 @@ public class RegisterFragment extends Fragment {
         });
 
         return root;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

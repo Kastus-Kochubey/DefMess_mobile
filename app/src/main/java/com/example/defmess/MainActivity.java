@@ -19,6 +19,10 @@ import com.example.defmess.databinding.ActivityMainBinding;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.json.JSONException;
+
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
 //    public static String AccessCode = "";
 
@@ -66,13 +70,20 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
 
 
-//        View navHeader = binding.navView.getHeaderView(0);
-//        TextView textView = navHeader.findViewById(R.id.textView2);
-//        textView.setText("qqqqqqqqqqqqqqqqqqqqqqqqq");
-//        Button button = navHeader.findViewById(R.id.button2);
-//        button.setOnClickListener((v) -> {
-//            Navigation.findNavController(navHeader).navigate(R.id.nav_login);
-//        });
+        try {
+            JsonFilesManager manager = new JsonFilesManager(getApplicationContext(), false);
+            /* TODO:
+                    check user login with JsonFilesManager
+                    create start fragment with butts REG and LOGin
+            */
+            boolean hasLogin = false;
+            if (hasLogin){
+                navController.navigate(R.id.nav_main);
+            }
+
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -55,7 +55,7 @@ public class MainFragment extends Fragment {
                 jsonObject.put("email", "russian_post");
                 jsonObject.put("password", "1234");
 //                String text = request.post("/user/login", "{'email': 'russian_post','password': '1234'}");
-                String text = request.post("/user/login", jsonObject.toString());
+                String text = request.post("/user/login", jsonObject);
                 if (text != null) {
                     for (int i = 0; i < 20; i++) {
                         TextView textView = new TextView(root.getContext());

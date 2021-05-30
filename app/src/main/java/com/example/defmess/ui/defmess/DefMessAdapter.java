@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.defmess.R;
 import com.example.defmess.RequestToServer;
+import com.example.defmess.ui.user.User;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -43,6 +44,17 @@ public class DefMessAdapter extends RecyclerView.Adapter<DefMessAdapter.DefMessH
             JSONObject jsonDefMess = jsonArray.getJSONObject(i).getJSONObject("defmess");
             Log.e("JsonDefMess", jsonDefMess.toString());
             DefMess defMess = new DefMess(jsonDefMess);
+            list.add(defMess);
+        }
+    }
+
+    public DefMessAdapter(JSONObject jsonUserProfile) throws JSONException {
+        Log.e("jsonUserProfile", jsonUserProfile.toString());
+        JSONArray jsonArray = jsonUserProfile.getJSONArray("def_messages");
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject jsonDefMess = jsonArray.getJSONObject(i).getJSONObject("defmess");
+            Log.e("JsonDefMess", jsonDefMess.toString());
+            DefMess defMess = new DefMess(jsonDefMess, new User(jsonUserProfile));
             list.add(defMess);
         }
     }

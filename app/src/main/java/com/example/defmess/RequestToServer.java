@@ -39,18 +39,14 @@ public class RequestToServer {
                 .post(body)
                 .build();
         MakeReqString req = new MakeReqString();
-//        String json_response = ;
-        JSONObject jsonResp = new JSONObject(req.execute(request).get());
-        Log.e("post", "response: " + jsonResp);
-        return jsonResp;
+        String json_response = req.execute(request).get();
+//        Log.e("post", "response: " + json_response + json);
+        return new JSONObject(json_response);
 
     }
 
     public JSONObject get(String path) throws ExecutionException, InterruptedException, JSONException {
-        Request request = new Request.Builder()
-                .url(address + path)
-                .get().build();
-
+        Request request = new Request.Builder().url(address + path).get().build();
 
         MakeReqString req = new MakeReqString();
         JSONObject jsonResp = new JSONObject(req.execute(request).get());
@@ -69,7 +65,6 @@ public class RequestToServer {
     }
 
 
-    @SuppressLint("StaticFieldLeak")
     protected class MakeReqString extends AsyncTask<Request, Void, String> {
         @Override
         protected String doInBackground(Request... requests) {
@@ -82,7 +77,7 @@ public class RequestToServer {
             return null;
         }
     }
-    @SuppressLint("StaticFieldLeak")
+
     protected class MakeReqBitmap extends AsyncTask<Request, Void, Bitmap> {
         @Override
         protected Bitmap doInBackground(Request... requests) {
