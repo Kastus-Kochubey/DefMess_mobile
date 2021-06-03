@@ -46,7 +46,7 @@ public class ProfileFragment extends Fragment {
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         View root = binding.getRoot();
-        binding.setViewModel(mainViewModel);
+//        binding.setViewModel(mainViewModel);
 
         if (!mainViewModel.isLogin()) {
             Navigation.findNavController(root).navigate(R.id.nav_reg_log);

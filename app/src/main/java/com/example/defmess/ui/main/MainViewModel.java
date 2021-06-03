@@ -30,12 +30,12 @@ import java.util.concurrent.ExecutionException;
 
 public class MainViewModel extends ViewModel {
     private MutableLiveData<JSONArray> pub_def_messages;
-    //    private MutableLiveData<JSONObject> jsonData = new MutableLiveData<JSONObject>();
     private MutableLiveData<String> jwt_code;
     private MutableLiveData<User> user;
     private MutableLiveData<JSONArray> userDefMessages;
-
     private MutableLiveData<Boolean> currDefMessId;
+//    private static final String SERVER_ADDRESS = "http://127.0.0.1:5000";
+    private static final String SERVER_ADDRESS = "http://82.148.29.139:5000";
 
 //    private SavedStateHandle state;
 
@@ -72,12 +72,11 @@ public class MainViewModel extends ViewModel {
 
     public void logout() {
         jwt_code.setValue(null);
-//        user.setValue(null);
-//        jsonData.getValue().remove("jwt_code");
+        Log.e("LOGOUT", "__________________");
     }
 
     public Boolean login(String email, String password) throws JSONException, InterruptedException, ExecutionException, IOException {
-        RequestToServer request = new RequestToServer("http://127.0.0.1:5000");
+        RequestToServer request = new RequestToServer(SERVER_ADDRESS);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("email", email);
         jsonObject.put("password", password);
@@ -95,7 +94,7 @@ public class MainViewModel extends ViewModel {
     }
 
     public Boolean register(String name, String surname, String email, String password) throws JSONException, InterruptedException, ExecutionException, IOException {
-        RequestToServer request = new RequestToServer("http://127.0.0.1:5000");
+        RequestToServer request = new RequestToServer(SERVER_ADDRESS);
 
         JSONObject jsonRequest = new JSONObject();
         jsonRequest.put("name", name);
@@ -111,7 +110,7 @@ public class MainViewModel extends ViewModel {
     }
 
     public LiveData<JSONArray> getProfile() throws JSONException, InterruptedException, ExecutionException, IOException {
-        RequestToServer request = new RequestToServer("http://127.0.0.1:5000");
+        RequestToServer request = new RequestToServer(SERVER_ADDRESS);
 //        JsonFilesManager filesManager = new JsonFilesManager(getContext().getApplicationContext());
         JSONObject jsonUserProfile = request.post("/user/profile",
                 new JSONObject().put("jwt_code", jwt_code.getValue()).toString())
@@ -124,7 +123,7 @@ public class MainViewModel extends ViewModel {
     }
 
     public Bitmap getUserAvatar(){
-        RequestToServer request = new RequestToServer("http://127.0.0.1:5000");
+        RequestToServer request = new RequestToServer(SERVER_ADDRESS);
         try {
             Bitmap bitmapResponse = request.getImage(user.getValue().link_to_photo);
             if (bitmapResponse != null) {
@@ -148,7 +147,7 @@ public class MainViewModel extends ViewModel {
     }
 
     public LiveData<JSONArray> getPubDefMessages() throws JSONException, ExecutionException, InterruptedException {
-        RequestToServer request = new RequestToServer("http://127.0.0.1:5000");
+        RequestToServer request = new RequestToServer(SERVER_ADDRESS);
         JSONObject jsonResponse = request.get("/defmess/publicated");
         if (jsonResponse != null) {
             pub_def_messages = new MutableLiveData<>();
@@ -158,7 +157,7 @@ public class MainViewModel extends ViewModel {
     }
 
     public Boolean createDefMess(DefMess defMess) throws InterruptedException, ExecutionException, JSONException, IOException {
-        RequestToServer request = new RequestToServer("http://127.0.0.1:5000");
+        RequestToServer request = new RequestToServer(SERVER_ADDRESS);
         DateUtils dateUtils = new DateUtils();
         JSONObject jsonRequest = new JSONObject();
         jsonRequest.put("jwt_code", jwt_code.getValue());

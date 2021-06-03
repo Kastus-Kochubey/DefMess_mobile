@@ -116,7 +116,12 @@ public class MainActivity extends AppCompatActivity {
         Log.e("saveData", "q");
         pref = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
-        editor.putString("jwt_code", mainViewModel.getJwt_code()).apply();
+        String jwt_code = mainViewModel.getJwt_code();
+        if (jwt_code == null){
+            editor.clear().apply();
+        } else {
+            editor.putString("jwt_code", jwt_code).apply();
+        }
 //        editor.apply();
 
     }
