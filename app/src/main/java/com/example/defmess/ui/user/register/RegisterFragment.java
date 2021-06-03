@@ -11,11 +11,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.example.defmess.R;
 import com.example.defmess.RequestToServer;
 import com.example.defmess.databinding.FragmentRegisterBinding;
+import com.example.defmess.ui.main.MainViewModel;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -26,13 +29,16 @@ import java.util.concurrent.ExecutionException;
 
 public class RegisterFragment extends Fragment {
     FragmentRegisterBinding binding;
-
+    MainViewModel mainViewModel;
     @Nullable
     @org.jetbrains.annotations.Nullable
     @Override
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         binding = FragmentRegisterBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+
+
         EditText name = binding.registerName;
         EditText surname = binding.registerSurname;
         EditText email = binding.registerEmail;
@@ -47,23 +53,19 @@ public class RegisterFragment extends Fragment {
                 passwordAgain.setText("");
             }
 
-            RequestToServer request = new RequestToServer("http://127.0.0.1:5000");
             try {
-                JSONObject jsonRequest = new JSONObject();
-                jsonRequest.put("name", name.getText());
-                jsonRequest.put("surname", surname.getText());
-                jsonRequest.put("email", email.getText());
-                jsonRequest.put("password", password.getText());
-//                String text = request.post("/user/login", "{'email': 'russian_post','password': '1234'}");
-                JSONObject jsonResponse = request.post("/user/register", jsonRequest.toString());
-                if (jsonResponse != null) {
-                    Toast.makeText(getContext(), jsonResponse.toString(), Toast.LENGTH_SHORT).show();
+                if (mainViewModel.register(
+                        name.getText().toString(),
+                        surname.getText().toString(),
+                        email.getText().toString(),
+                        password.getText().toString())) {
+                    Navigation.findNavController(root).navigate(R.id.nav_login);
                 }
             } catch (IOException | ExecutionException | InterruptedException | JSONException e) {
                 e.printStackTrace();
             }
             // TODO: check server response / check user's data unique on server
-            Navigation.findNavController(root).navigate(R.id.nav_login);
+
         });
 
         return root;

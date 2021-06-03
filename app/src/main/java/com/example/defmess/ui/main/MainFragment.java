@@ -33,45 +33,60 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class MainFragment extends Fragment {
-//    private MainViewModel mainViewModel;
+    private MainViewModel mainViewModel;
     private FragmentMainBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-//        mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
 
         binding = FragmentMainBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
+//        View root = binding.getRoot();
 
         RecyclerView recyclerView = binding.recyclerView;
 
-
-//            RequestToServer request = new RequestToServer("https://82.148.29.139");
-        RequestToServer request = new RequestToServer("http://127.0.0.1:5000");
         try {
-//            JSONObject jsonObject = new JSONObject();
-//            jsonObject.put("email", "russian_post");
-//            jsonObject.put("password", "1234");
-//                String text = request.post("/user/login", "{'email': 'russian_post','password': '1234'}");
-            JSONObject jsonResponse = request.get("/defmess/publicated");
-            if (jsonResponse != null) {
-                JSONArray pubDefMessages = jsonResponse.getJSONArray("pub_def_messages");
-                DefMessAdapter defMessAdapter = new DefMessAdapter(pubDefMessages);
-                recyclerView.setAdapter(defMessAdapter);
-
-//                mainViewModel.getPubDefMessages().observe(getViewLifecycleOwner(), new Observer<JSONArray>() {
-//                    @Override
-//                    public void onChanged(JSONArray jsonArray) {
-//
-//                    }
-//                });
-            }
-        } catch (ExecutionException | InterruptedException | JSONException e) {
+            mainViewModel.getPubDefMessages().observe(getViewLifecycleOwner(), new Observer<JSONArray>() {
+                @Override
+                public void onChanged(JSONArray jsonArray) {
+                    try {
+                        recyclerView.setAdapter(new DefMessAdapter(jsonArray));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        } catch (JSONException | ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
 
+//            RequestToServer request = new RequestToServer("https://82.148.29.139");
+//        RequestToServer request = new RequestToServer("http://127.0.0.1:5000");
+//        try {
+////            JSONObject jsonObject = new JSONObject();
+////            jsonObject.put("email", "russian_post");
+////            jsonObject.put("password", "1234");
+////                String text = request.post("/user/login", "{'email': 'russian_post','password': '1234'}");
+//            JSONObject jsonResponse = request.get("/defmess/publicated");
+//            if (jsonResponse != null) {
+//                JSONArray pubDefMessages = jsonResponse.getJSONArray("pub_def_messages");
+//                DefMessAdapter defMessAdapter = new DefMessAdapter(pubDefMessages);
+//                recyclerView.setAdapter(defMessAdapter);
+//
+////                mainViewModel.getPubDefMessages().observe(getViewLifecycleOwner(), new Observer<JSONArray>() {
+////                    @Override
+////                    public void onChanged(JSONArray jsonArray) {
+////
+////                    }
+////                });
+//            }
+//        } catch (ExecutionException | InterruptedException | JSONException e) {
+//            e.printStackTrace();
+//        }
 
-        return root;
+//        DefMessAdapter defMessAdapter = new DefMessAdapter(mainViewModel.getJson().getValue());
+
+        return binding.getRoot();
 
 
     }

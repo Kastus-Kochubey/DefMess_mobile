@@ -48,8 +48,8 @@ public class RequestToServer {
     public JSONObject get(String path) throws ExecutionException, InterruptedException, JSONException {
         Request request = new Request.Builder().url(address + path).get().build();
 
-        MakeReqString req = new MakeReqString();
-        JSONObject jsonResp = new JSONObject(req.execute(request).get());
+        MakeReqString makeReqString = new MakeReqString();
+        JSONObject jsonResp = new JSONObject(makeReqString.execute(request).get());
         Log.e("get", "response: " + jsonResp);
         return jsonResp;
     }

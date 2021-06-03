@@ -10,22 +10,31 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 
 import static android.content.Context.MODE_PRIVATE;
 
 public class JsonFilesManager {
     private static final String FILENAME = "data.json";
+//    private static Context context;
     private final Context context;
     private JSONObject jsonFile;
 
     public JsonFilesManager(Context appContext) throws IOException, JSONException {
         this.context = appContext;
-        jsonFile = getJson();
+        if (checkFileSave(appContext)) {
+            jsonFile = loadJson(appContext);
+        } else {
+            initialize(context);
+            jsonFile = loadJson(appContext);
+        }
+
     }
 
-    public JsonFilesManager(Context appContext, Boolean load) throws IOException, JSONException {
-        this.context = appContext;
-        if (load) jsonFile = getJson();
+    public static void initialize(Context context) throws IOException {
+        FileOutputStream outputStream = context.openFileOutput(FILENAME, MODE_PRIVATE);
+        outputStream.write("{'init': true}".getBytes());
+        outputStream.close();
     }
 
 
@@ -37,7 +46,7 @@ public class JsonFilesManager {
     }
 
 
-    private JSONObject getJson() throws IOException, JSONException {
+    public static JSONObject loadJson(Context context) throws IOException, JSONException {
         FileInputStream inputStream = context.openFileInput(FILENAME);
         BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
         StringBuilder str = new StringBuilder();
@@ -55,17 +64,31 @@ public class JsonFilesManager {
     }
 
     public Object get(String name) throws JSONException {
-        if (jsonFile != null){
+        if (jsonFile != null) {
             return jsonFile.get(name);
         }
         return null;
     }
 
     public JSONObject getJSONObject(String name) throws JSONException {
-        if (jsonFile != null){
+        if (jsonFile != null) {
             return jsonFile.getJSONObject(name);
         }
         return null;
+    }
+
+    public static Boolean checkFileSave(Context context) {
+        return Arrays.asList(context.fileList()).contains(FILENAME);
+    }
+
+
+    public static Boolean checkLogin(Context context) throws IOException, JSONException {
+        if (checkFileSave(context)) {
+            JSONObject jsonObject = loadJson(context);
+            if (jsonObject.has("jwt_code"))
+                return true;
+        }
+        return false;
     }
 
 //    public void add(String name, JSONObject jsonObject) throws IOException, JSONException {

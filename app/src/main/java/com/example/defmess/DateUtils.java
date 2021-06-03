@@ -6,20 +6,33 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class DateManager {
-    public SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd h:m:s");
+public class DateUtils {
+    public SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd h:m:s");
+    public SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    public SimpleDateFormat timeFormat = new SimpleDateFormat("H:m:s");
 
-    public DateManager(String dateFormat) {
-        this.dateFormat = new SimpleDateFormat(dateFormat);
+    public DateUtils(String dateFormat) {
+        this.dateTimeFormat = new SimpleDateFormat(dateFormat);
+    }
+
+    public DateUtils() {
+
     }
 
     public Date parseDate(String date) throws ParseException {
-        return dateFormat.parse(date);
+        return dateTimeFormat.parse(date);
     }
 
     @NotNull
-    public String toString(Date date) {
+    public String toDateTimeString(Date date) {
+        return dateTimeFormat.format(date);
+    }
+
+    public String toDateString(Date date){
         return dateFormat.format(date);
+    }
+    public String toTimeString(Date date){
+        return timeFormat.format(date);
     }
 
     public Boolean beforeNow(Date date) {

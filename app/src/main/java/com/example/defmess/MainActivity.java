@@ -1,23 +1,21 @@
 package com.example.defmess;
 
-import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.defmess.databinding.ActivityMainBinding;
+import com.example.defmess.ui.main.MainViewModel;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
 
@@ -29,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
+    private MainViewModel mainViewModel;
+    SharedPreferences pref;
 
 
     public MainActivity() {
@@ -38,27 +38,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-//        setContentView(R.layout.activity_main);
-//        binding = ActivityMainBinding.inflate(getLayoutInflater());
         binding = ActivityMainBinding.bind(findViewById(R.id.drawer_layout));
+        mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        binding.setViewModel(mainViewModel);
 
 
         setSupportActionBar(binding.appBarMain.toolbar);
 
 
-
-//        setSupportActionBar(binding.contentMain);
-//        binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
+
+//        UserFragment userFragment = new UserFragment();
+//        FragmentManager fragmentManager = new FragmentManager() {};
+////        fragmentManager.addFragmentOnAttachListener(new );
+//        userFragment.getLayoutInflater().inflate(R.layout.fragment_user, (ViewGroup) userFragment.getView(), false);
+//        navigationView.addHeaderView(userFragment.getView());
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_main, R.id.nav_profile)
@@ -69,21 +64,17 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-
         try {
-            JsonFilesManager manager = new JsonFilesManager(getApplicationContext(), false);
-            /* TODO:
-                    check user login with JsonFilesManager
-                    create start fragment with butts REG and LOGin
-            */
-            boolean hasLogin = false;
-            if (hasLogin){
+            loadData();
+            if (mainViewModel.isLogin()) {
                 navController.navigate(R.id.nav_main);
+                saveData();
             }
-
-        } catch (IOException | JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
+
+
     }
 
     @Override
@@ -91,5 +82,71 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+//
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        Log.e("onSaveInstanceState", "qq");
+//        try {
+//            JsonFilesManager manager = new JsonFilesManager(getApplicationContext());
+//            outState.putString("data", mainViewModel.getData());
+//        } catch (JSONException | IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.e("onSaveInstanceState", "qq");
+        try {
+            saveData();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+//        try {
+//            outState.putString("data", mainViewModel.getData());
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+    }
+
+    public void saveData() throws JSONException {
+        Log.e("saveData", "q");
+        pref = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("jwt_code", mainViewModel.getJwt_code()).apply();
+//        editor.apply();
+
+    }
+
+    public void loadData() throws JSONException {
+        pref = getPreferences(MODE_PRIVATE);
+        mainViewModel.setJwt_code(pref.getString("jwt_code", null));
+        String jwt_code = mainViewModel.getJwt_code();
+        if (jwt_code == null) {
+            Log.e("loadData", "null jwt_code");
+        } else {
+            Log.e("loadData", jwt_code);
+        }
+    }
+
+//    @Override
+//    public void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+//        super.onRestoreInstanceState(savedInstanceState);
+//        Log.e("onRestoreInstanceState", savedInstanceState.getString("data"));
+////        mainViewModel.setData(savedInstanceState.getString("data"));
+//    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            saveData();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 }

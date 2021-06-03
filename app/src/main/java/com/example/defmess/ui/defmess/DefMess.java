@@ -49,4 +49,13 @@ public class DefMess {
         this.user = user;
     }
 
+    public DefMess(String appearance, String location,String description,
+                   String begin_date, String end_date) {
+        this.appearance = appearance;
+        this.begin_date = begin_date;
+        this.end_date = end_date;
+        this.location = location;
+        this.description = description;
+    }
+
 }
