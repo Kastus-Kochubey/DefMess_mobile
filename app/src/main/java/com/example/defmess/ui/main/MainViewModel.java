@@ -35,24 +35,26 @@ public class MainViewModel extends ViewModel {
     private MutableLiveData<JSONArray> userDefMessages;
     private MutableLiveData<Boolean> currDefMessId;
 //    private static final String SERVER_ADDRESS = "http://127.0.0.1:5000";
-    private static final String SERVER_ADDRESS = "http://82.148.29.139:5000";
+    private static final String SERVER_ADDRESS = "http://82.148.29.139";
 
 //    private SavedStateHandle state;
 
-
-    public MainViewModel(SavedStateHandle stateHandle) throws JSONException {
-//        state = stateHandle;
-
-//        jwt_code = stateHandle.getLiveData("jwt_code");
-//        user = stateHandle.getLiveData("user") ? getUser();
-//        userDefMessages = stateHandle.getLiveData("userDefMessages");
-//        pub_def_messages = stateHandle.getLiveData("pub_def_messages");
-
-//        if (jwt_code.getValue() == null){
-////            logout();
-//        }
+    public MainViewModel(){
 
     }
+//    public MainViewModel(SavedStateHandle stateHandle) throws JSONException {
+////        state = stateHandle;
+//
+////        jwt_code = stateHandle.getLiveData("jwt_code");
+////        user = stateHandle.getLiveData("user") ? getUser();
+////        userDefMessages = stateHandle.getLiveData("userDefMessages");
+////        pub_def_messages = stateHandle.getLiveData("pub_def_messages");
+//
+////        if (jwt_code.getValue() == null){
+//////            logout();
+////        }
+//
+//    }
 
     public String getJwt_code() throws JSONException {
 //        JSONObject jsonObject = new JSONObject();

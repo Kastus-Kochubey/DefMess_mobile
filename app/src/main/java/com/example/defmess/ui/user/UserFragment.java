@@ -45,9 +45,6 @@ public class UserFragment extends Fragment {
         name.setText(user.name);
         surname.setText(user.surname);
         avatar.setImageBitmap(mainViewModel.getUserAvatar());
-
-
-
         return binding.getRoot();
     }
 

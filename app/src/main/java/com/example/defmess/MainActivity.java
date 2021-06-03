@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             loadData();
             if (mainViewModel.isLogin()) {
                 navController.navigate(R.id.nav_main);
-                saveData();
+//                saveData();
             }
         } catch (JSONException e) {
             e.printStackTrace();

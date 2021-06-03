@@ -101,16 +101,23 @@ public class DefMessAdapter extends RecyclerView.Adapter<DefMessAdapter.DefMessH
             holder.itemView.setBackgroundColor(Color.rgb(93, 139, 255));
         }
 
-        RequestToServer request = new RequestToServer("http://127.0.0.1:5000");
-        try {
-
-            Bitmap bitmapResponce = request.getImage(defMess.user.link_to_photo);
-            if (bitmapResponce != null) {
-                holder.userAvatar.setImageBitmap(bitmapResponce);
-            }
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
+        {
+//            MainViewModel mainViewModel = new MainViewModel();
+//            Bitmap bitmap = mainViewModel.getUserAvatar();
+//            if (bitmap != null) {
+//                holder.userAvatar.setImageBitmap(bitmap);
+//            }
         }
+//        RequestToServer request = new RequestToServer("http://127.0.0.1:5000");
+//        try {
+//
+//            Bitmap bitmapResponce = request.getImage(defMess.user.link_to_photo);
+//            if (bitmapResponce != null) {
+//                holder.userAvatar.setImageBitmap(bitmapResponce);
+//            }
+//        } catch (ExecutionException | InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
     }
 
